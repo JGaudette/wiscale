@@ -4,11 +4,11 @@ require 'rake'
 begin
   require 'jeweler'
   Jeweler::Tasks.new do |gem|
-    gem.name = "wiscale-ruby"
+    gem.name = "wiscale"
     gem.summary = %Q{Withings Wifi Scale API Ruby Wrapper}
     gem.description = %Q{Ruby Wrapper for Withings Wifi Scale API}
     gem.email = "jon@digital-drip.com"
-    gem.homepage = "http://github.com/jgaudette/wiscale-ruby"
+    gem.homepage = "http://github.com/jgaudette/wiscale"
     gem.authors = ["Jon"]
     gem.add_development_dependency "thoughtbot-shoulda", ">= 0"
     # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
