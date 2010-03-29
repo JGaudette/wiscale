@@ -6,7 +6,7 @@ begin
   Jeweler::Tasks.new do |gem|
     gem.name = "wiscale-ruby"
     gem.summary = %Q{Withings Wifi Scale API Ruby Wrapper}
-    gem.description = %Q{TODO: longer description of your gem}
+    gem.description = %Q{Ruby Wrapper for Withings Wifi Scale API}
     gem.email = "jon@digital-drip.com"
     gem.homepage = "http://github.com/jgaudette/wiscale-ruby"
     gem.authors = ["Jon"]
