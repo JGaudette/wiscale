@@ -1,6 +1,6 @@
 = wiscale-ruby
 
-Description goes here.
+Ruby Wrapper for Withings Wifi Scale API
 
 == Note on Patches/Pull Requests
  
@@ -14,4 +14,4 @@ Description goes here.
 
 == Copyright
 
-Copyright (c) 2010 Jon. See LICENSE for details.
+Copyright (c) 2010 Jon Gaudette. See LICENSE for details.
