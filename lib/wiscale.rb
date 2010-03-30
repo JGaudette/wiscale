@@ -22,26 +22,24 @@ class WiScale
   end
 
   def get_meas(*params)
-    if params.length == 1
-      #TODO pass params to api for things like limie
-      ret_val = JSON.parse(HTTParty.get(api_url + '/measure', :query => {:action => 'getmeas', :userid => userid, :publickey => publickey}))
-    else
-      ret_val = JSON.parse(HTTParty.get(api_url + '/measure', :query => {:action => 'getmeas', :userid => userid, :publickey => publickey}))
-    end
+    params = Array.new unless params
+    params[0] = Hash.new unless params[0]
 
+    params[0][:action] = 'getmeas'
+    params[0][:userid] = userid
+    params[0][:publickey] = publickey
+
+    ret_val = JSON.parse(HTTParty.get(api_url + '/measure', :query => params[0]))
 
     if ret_val['status'] == 0
       OpenStruct.new(ret_val['body'])
+    else
+      ret_val['status']
     end
   end
 
-  #TODO this should call get_meas(:limit=>1) once first todo is done
   def get_last_meas
-  ret_val = JSON.parse(HTTParty.get(api_url + '/measure', :query => {:action => 'getmeas', :userid => userid, :publickey => publickey, :limit => 1}))
-
-    if ret_val['status'] == 0
-      return OpenStruct.new(ret_val['body'])
-    end
+    get_meas(:limit => 1)
   end
 
   def api_url
