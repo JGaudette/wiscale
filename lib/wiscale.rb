@@ -32,7 +32,8 @@ class WiScale
     ret_val = JSON.parse(HTTParty.get(api_url + '/measure', :query => params[0]))
 
     if ret_val['status'] == 0
-      OpenStruct.new(ret_val['body'])
+      measures = ret_val['body']['measuregrps'].collect { |meas| OpenStruct.new(meas) }
+      OpenStruct.new({:updatetime => ret_val['body']['updatetime'], :measures => measures})
     else
       ret_val['status']
     end
