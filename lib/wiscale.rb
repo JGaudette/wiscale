@@ -43,6 +43,19 @@ class WiScale
     get_meas(:limit => 1)
   end
 
+  def get_by_userid
+    ret_val = JSON.parse(HTTParty.get(api_url + '/user', :query => {
+      :action => 'getbyuserid',
+      :userid => userid,
+      :publickey => publickey}))
+
+    if ret_val['status'] == 0
+      ret_val['body']['users'].collect { |user| OpenStruct.new(user) }
+    else
+      ret_val['status']
+    end
+  end
+
   def api_url
     @api_url || @api_url = 'http://wbsapi.withings.net'
   end

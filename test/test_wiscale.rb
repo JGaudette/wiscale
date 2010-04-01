@@ -22,4 +22,19 @@ class TestWiscaleRuby < Test::Unit::TestCase
       assert_not_equal 2555, client.get_last_meas
     end
   end
+
+  context "user information" do
+    should "fail to get user info with invalid creds" do
+      client = WiScale.new(:userid => 'fake', :publickey => 'fake')
+      assert_equal 247, client.get_by_userid
+    end
+
+    should "get a single users info with valid creds" do
+      config = YAML.load_file("credentials.yml")
+      client = WiScale.new(:userid => config['userid'], :publickey => config['publickey'])
+      users = client.get_by_userid
+      assert_equal config['userid'].to_i, users[0].id.to_i
+    end
+  end
+
 end
