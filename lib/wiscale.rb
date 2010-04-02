@@ -2,6 +2,7 @@ require 'rubygems'
 require 'httparty'
 require 'json'
 require 'ostruct'
+require 'digest/md5'
 
 
 class WiScale
@@ -50,6 +51,24 @@ class WiScale
     else
       ret_val['status']
     end
+  end
+
+  def get_users_list(email, passwd)
+    hash = compute_hash(email, passwd)
+    ret_val = JSON.parse(HTTParty.get(api_url + '/account', :query => {:action => 'getuserslist', :email => email, :hash => hash}))
+
+    if ret_val['status'] == 0
+      ret_val['body']['users'].collect { |user| OpenStruct.new(user) }
+    else
+      ret_val['status']
+    end
+  end
+
+  def compute_hash(email, passwd)
+    once = get_once
+    hash = email + ':' + Digest::MD5::hexdigest(passwd) + ':' + once
+
+    Digest::MD5::hexdigest(hash)
   end
 
   def api_url
