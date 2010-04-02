@@ -39,10 +39,6 @@ class WiScale
     end
   end
 
-  def get_last_meas
-    get_meas(:limit => 1)
-  end
-
   def get_by_userid
     ret_val = JSON.parse(HTTParty.get(api_url + '/user', :query => {
       :action => 'getbyuserid',
