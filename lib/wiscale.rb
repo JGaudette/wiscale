@@ -64,6 +64,12 @@ class WiScale
     end
   end
 
+  def user_update(userid, publickey, ispublic)
+    ret_val = JSON.parse(HTTParty.get(api_url + '/user', :query => {:userid => userid, :publickey => publickey, :ispublic => ispublic}))
+
+    ret_val['status']
+  end
+
   def compute_hash(email, passwd)
     once = get_once
     hash = email + ':' + Digest::MD5::hexdigest(passwd) + ':' + once
