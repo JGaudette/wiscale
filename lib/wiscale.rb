@@ -119,7 +119,6 @@ class WiScale
 
   def compute_scale_hash(mac, secret)
     once = scale_once
-    p 'sonce is ' + once.inspect
     hash = mac + ':' + secret + ':' + once
 
     Digest::MD5::hexdigest(hash)
@@ -127,7 +126,7 @@ class WiScale
 
   def session_start(email, secret, mac)
     hash = compute_scale_hash(mac, secret)
-    p 'got hash of ' + hash.inspect
+
     ret_val = JSON.parse(HTTParty.get(scale_url + '/session', :query => {:action => 'new', :auth => mac, :duration => '30', :hash => hash}))
 
     if ret_val['status'] == 0

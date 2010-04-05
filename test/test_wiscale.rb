@@ -70,7 +70,6 @@ class TestWiscaleRuby < Test::Unit::TestCase
       client = WiScale.new()
 
       sessionid = client.session_start('jon@digital-drip.com', config['secret'], config['mac'])
-      p 'return value is: ' + sessionid.inspect
       assert_equal 0, client.session_delete(sessionid)
 
     end
