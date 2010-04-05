@@ -142,6 +142,35 @@ class WiScale
     ret_val['status']
   end
 
+  # Create a new measurements record for the user
+  # * email address of account owner
+  # * secret password of scale masquerading as
+  # * mac address of scale masquerading as
+  # * timestamp (epoch time) of measurement recording
+  # * weight value (in kg) of measurement
+  # * percent body fat of measurement
+  def meas_create(email, secret, mac, timestamp, weight, bodyfat)
+    session = session_start(email, secret, mac)
+
+    bfmass = (weight*bodyfat*10).to_i
+    weight = weight * 1000
+
+    meas_string = "{\"measures\":[{\"value\":'#{weight}',\"type\":1,\"unit\":-3},{\"value\":'#{bfmass}',\"type\":8,\"unit\":-3}]}"
+
+    ret_val = JSON.parse(HTTParty.get(scale_url + '/measure', :query => {
+      :action => 'store',
+      :sessionid => session,
+      :userid => userid,
+      :macaddress => mac,
+      :meastime => timestamp,
+      :devtype => '1',
+      :attribstatus => '0',
+      :measures => meas_string
+    }))
+
+    ret_val
+  end
+
   def compute_hash(email, passwd)
     once = get_once
     hash = email + ':' + Digest::MD5::hexdigest(passwd) + ':' + once

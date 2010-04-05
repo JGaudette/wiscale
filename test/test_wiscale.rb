@@ -75,4 +75,15 @@ class TestWiscaleRuby < Test::Unit::TestCase
     end
   end
 
+  context "create measurement" do
+    should "create a new measurement" do
+      config = YAML.load_file("credentials.yml")
+      client = WiScale.new(:userid => config['userid'], :publickey => config['publickey'])
+
+      ret_val = client.meas_create(config['email'], config['secret'], config['mac'], Time.now.to_i, 100, 50)
+      p 'got return val of: ' + ret_val.inspect
+    end
+  end
+
 end
+
