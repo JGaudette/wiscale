@@ -4,7 +4,6 @@ require 'json'
 require 'ostruct'
 require 'digest/md5'
 
-
 class WiScale
 
   def initialize(*params)
@@ -64,8 +63,9 @@ class WiScale
     end
   end
 
-  def user_update(userid, publickey, ispublic)
-    ret_val = JSON.parse(HTTParty.get(api_url + '/user', :query => {:userid => userid, :publickey => publickey, :ispublic => ispublic}))
+  def user_update(ispublic)
+    ret_val = JSON.parse(HTTParty.get(api_url + '/user', :query => {:action => 'update', :userid => userid, :publickey => publickey, :ispublic => ispublic}))
+
 
     ret_val['status']
   end
