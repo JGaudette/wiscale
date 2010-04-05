@@ -7,22 +7,20 @@ sudo gem install wiscale
 
 == SYNOPSIS:
 
-Setup: <br />
-<tt>
-require 'wiscale' <br />
-client = WiScale.new(:userid => 123, :publickey => 'asdlkfja')
-</tt>
+Setup: 
 
-Get all measurements without any filters: <br />
+<tt>require 'wiscale' 
+client = WiScale.new(:userid => 123, :publickey => 'asdlkfja')</tt>
+
+Get all measurements without any filters: 
 <tt>measurements = client.get_meas</tt>
 
-Get only the last measurement: <br />
+Get only the last measurement: 
 <tt>measurements = client.get_meas(:limit => 1)</tt>
 
 Get the last measurement as weight in lbs and %fat:
 
-<tt>
-measurements[0].each do |rec|
+<tt>measurements[0].each do |rec|
   type = rec['type'].to_i
   value = (rec['value'].to_i * (10 ** rec['unit'])).to_f
 
@@ -31,23 +29,22 @@ measurements[0].each do |rec|
   elsif type == 1
     puts "Weight " + (value * 2.20462262).round(2) + " lb"
   end
-end
-</tt>
+end</tt>
 
-Subscribe a URL to push notification: <br />
+Subscribe a URL to push notification: 
 <tt>client.notify_subscribe('http://www.mytestingurl.com', 'this is a test')</tt>
 
-Get the notification you just created: <br />
+Get the notification you just created: 
 <tt>client.notify_get('http://www.mytestingurl.com')</tt>
 
-Revoke the notification: <br />
+Revoke the notification: 
 <tt>client.notify_revoke('http://www.mytestingurl.com')</tt>
 
 
-Get all user information: <br />
+Get all user information: 
 <tt>client.get_by_userid</tt>
 
-Get a list of users for a logon: <br />
+Get a list of users for a logon: 
 <tt>WiScale.get_users_list('myemail@address.com', 'mywithingspassword')</tt>
 
 
