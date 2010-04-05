@@ -2,6 +2,49 @@
 
 Ruby Wrapper for Withings Wifi Scale API
 
+== Examples
+
+
+require 'wiscale'
+
+client = WiScale.new(:userid => 123, :publickey => 'asdlkfja')
+
+
+# Get all measurements without any filters
+measurements = client.get_meas
+
+# Get only the last measurement
+measurements = client.get_meas(:limit => 1)
+
+# Get the last measurement as weight in lbs and %fat
+measurements[0].each do |rec|
+  type = rec['type'].to_i
+  value = (rec['value'].to_i * (10 ** rec['unit'])).to_f
+
+  if type == 6
+    puts "Fat %: " + value.round(2)
+  elsif type == 1
+    puts "Weight " + (value * 2.20462262).round(2) + " lb"
+  end
+end
+
+# Subscribe a URL to push notification
+client.notify_subscribe('http://www.mytestingurl.com', 'this is a test')
+
+# Get the notification you just created
+client.notify_get('http://www.mytestingurl.com')
+
+# Revoke the notification
+client.notify_revoke('http://www.mytestingurl.com')
+
+
+# Get all user information
+client.get_by_userid
+
+# Get a list of users for a logon
+WiScale.get_users_list('myemail@address.com', 'mywithingspassword')
+
+
 == Note on Patches/Pull Requests
  
 * Fork the project.
