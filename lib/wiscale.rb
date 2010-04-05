@@ -66,6 +66,8 @@ class WiScale
   def user_update(ispublic)
     ret_val = JSON.parse(HTTParty.get(api_url + '/user', :query => {:action => 'update', :userid => userid, :publickey => publickey, :ispublic => ispublic}))
 
+    ret_val['status']
+  end
 
     ret_val['status']
   end
