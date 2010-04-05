@@ -2,21 +2,26 @@
 
 Ruby Wrapper for Withings Wifi Scale API
 
-== Examples
+== INSTALL:
+sudo gem install wiscale
 
+== SYNOPSIS:
 
-require 'wiscale'
-
+Setup: <br />
+<tt>
+require 'wiscale' <br />
 client = WiScale.new(:userid => 123, :publickey => 'asdlkfja')
+</tt>
 
+Get all measurements without any filters: <br />
+<tt>measurements = client.get_meas</tt>
 
-# Get all measurements without any filters
-measurements = client.get_meas
+Get only the last measurement: <br />
+<tt>measurements = client.get_meas(:limit => 1)</tt>
 
-# Get only the last measurement
-measurements = client.get_meas(:limit => 1)
+Get the last measurement as weight in lbs and %fat:
 
-# Get the last measurement as weight in lbs and %fat
+<tt>
 measurements[0].each do |rec|
   type = rec['type'].to_i
   value = (rec['value'].to_i * (10 ** rec['unit'])).to_f
@@ -27,22 +32,23 @@ measurements[0].each do |rec|
     puts "Weight " + (value * 2.20462262).round(2) + " lb"
   end
 end
+</tt>
 
-# Subscribe a URL to push notification
-client.notify_subscribe('http://www.mytestingurl.com', 'this is a test')
+Subscribe a URL to push notification: <br />
+<tt>client.notify_subscribe('http://www.mytestingurl.com', 'this is a test')</tt>
 
-# Get the notification you just created
-client.notify_get('http://www.mytestingurl.com')
+Get the notification you just created: <br />
+<tt>client.notify_get('http://www.mytestingurl.com')</tt>
 
-# Revoke the notification
-client.notify_revoke('http://www.mytestingurl.com')
+Revoke the notification: <br />
+<tt>client.notify_revoke('http://www.mytestingurl.com')</tt>
 
 
-# Get all user information
-client.get_by_userid
+Get all user information: <br />
+<tt>client.get_by_userid</tt>
 
-# Get a list of users for a logon
-WiScale.get_users_list('myemail@address.com', 'mywithingspassword')
+Get a list of users for a logon: <br />
+<tt>WiScale.get_users_list('myemail@address.com', 'mywithingspassword')</tt>
 
 
 == Note on Patches/Pull Requests
