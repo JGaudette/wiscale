@@ -12,14 +12,14 @@ class TestWiscaleRuby < Test::Unit::TestCase
   context "invalid login" do
     should "fail to get last measurement" do
       client = WiScale.new(:userid => '2384', :publickey => 'asdf')
-      assert_equal 2555, client.get_last_meas
+      assert_equal 2555, client.get_meas()
     end
 
     should "succeed to get last measurement" do
       config = YAML.load_file("credentials.yml")
       client = WiScale.new(:userid => config['userid'], :publickey => config['publickey'])
 
-      assert_not_equal 2555, client.get_last_meas
+      assert_not_equal 2555, client.get_meas(:limit => 1)
     end
   end
 
