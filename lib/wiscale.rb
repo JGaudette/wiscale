@@ -4,6 +4,11 @@ require 'json'
 require 'ostruct'
 require 'digest/md5'
 
+# See API documentation for more information on return values
+# http://www.withings.com/en/api/bodyscale
+#
+# OpenStruct used when returning the 'body' information from api
+# Individual sub-measurements are returned as array of hashes
 class WiScale
 
   def initialize(*params)
