@@ -37,4 +37,31 @@ class TestWiscaleRuby < Test::Unit::TestCase
     end
   end
 
+  context "callback subscriptions" do
+    should "subscribe and revoke callback information" do
+      comment_str = 'testing'
+      config = YAML.load_file("credentials.yml")
+      client = WiScale.new(:userid => config['userid'], :publickey => config['publickey'])
+      
+      assert_equal 0, client.notify_subscribe('http://www.myhackerdiet.com', comment_str)
+      assert_equal 0, client.notify_revoke('http://www.myhackerdiet.com')
+
+      # Revoking again should yield return code 294 -- 'No such subscription could be deleted'
+      assert_equal 294, client.notify_revoke('http://www.myhackerdiet.com')
+    end
+
+    should "subscribe and get callback information, then revoke" do
+      comment_str = 'testing'
+      config = YAML.load_file("credentials.yml")
+      client = WiScale.new(:userid => config['userid'], :publickey => config['publickey'])
+      
+      assert_equal 0, client.notify_subscribe('http://www.myhackerdiet.com', comment_str)
+      
+      subscription = client.notify_get('http://www.myhackerdiet.com')
+      assert_equal comment_str, subscription.comment
+
+      assert_equal 0, client.notify_revoke('http://www.myhackerdiet.com')
+    end
+  end
+
 end

@@ -69,7 +69,42 @@ class WiScale
     ret_val['status']
   end
 
+  def notify_subscribe(callbackurl, comment)
+    ret_val = JSON.parse(HTTParty.get(api_url + '/notify', :query => {
+      :action => 'subscribe',
+      :userid => userid,
+      :publickey => publickey,
+      :callbackurl => URI.encode(callbackurl),
+      :comment => comment
+    }))
+
     ret_val['status']
+  end
+
+  def notify_revoke(callbackurl)
+    ret_val = JSON.parse(HTTParty.get(api_url + '/notify', :query => {
+      :action => 'revoke',
+      :userid => userid,
+      :publickey => publickey,
+      :callbackurl => URI.encode(callbackurl)
+    }))
+
+    ret_val['status']
+  end
+
+  def notify_get(callbackurl)
+    ret_val = JSON.parse(HTTParty.get(api_url + '/notify', :query => {
+      :action => 'get',
+      :userid => userid,
+      :publickey => publickey,
+      :callbackurl => URI.encode(callbackurl)
+    }))
+
+    if ret_val['status'] == 0
+      OpenStruct.new(ret_val['body'])
+    else
+      ret_val['status']
+    end
   end
 
   def compute_hash(email, passwd)
