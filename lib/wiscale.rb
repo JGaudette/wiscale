@@ -112,6 +112,37 @@ class WiScale
     end
   end
 
+  def scale_once()
+    ret_val = JSON.parse(HTTParty.get(scale_url + '/once', :query => {:action => 'get'}))
+    return ret_val['body']['once']
+  end
+
+  def compute_scale_hash(mac, secret)
+    once = scale_once
+    p 'sonce is ' + once.inspect
+    hash = mac + ':' + secret + ':' + once
+
+    Digest::MD5::hexdigest(hash)
+  end
+
+  def session_start(email, secret, mac)
+    hash = compute_scale_hash(mac, secret)
+    p 'got hash of ' + hash.inspect
+    ret_val = JSON.parse(HTTParty.get(scale_url + '/session', :query => {:action => 'new', :auth => mac, :duration => '30', :hash => hash}))
+
+    if ret_val['status'] == 0
+      ret_val['body']['sessionid']
+    else
+      ret_val['status']
+    end
+
+  end
+
+  def session_delete(sessionid)
+    ret_val = JSON.parse(HTTParty.get(scale_url + '/session', :query => {:action => 'delete', :sessionid => sessionid}))
+    ret_val['status']
+  end
+
   def compute_hash(email, passwd)
     once = get_once
     hash = email + ':' + Digest::MD5::hexdigest(passwd) + ':' + once
@@ -121,6 +152,10 @@ class WiScale
 
   def api_url
     @api_url || @api_url = 'http://wbsapi.withings.net'
+  end
+
+  def scale_url
+    @scale_url || @scale_url = 'http://scalews.withings.net/cgi-bin'
   end
 
   def userid

@@ -64,4 +64,16 @@ class TestWiscaleRuby < Test::Unit::TestCase
     end
   end
 
+  context "sessions" do
+    should "start and end session" do
+      config = YAML.load_file("credentials.yml")
+      client = WiScale.new()
+
+      sessionid = client.session_start('jon@digital-drip.com', config['secret'], config['mac'])
+      p 'return value is: ' + sessionid.inspect
+      assert_equal 0, client.session_delete(sessionid)
+
+    end
+  end
+
 end
