@@ -1,0 +1,28 @@
+repo_name: JGaudette/wiscale
+report_id: 73db5e705b4cd8afc8da3e3fccc92414
+repo_type: Public
+timestamp: '2023-11-09T12:52:27+00:00'
+requested_by: JGaudette
+provider: github
+branch: master
+detected_tools_count: 2
+tools:
+- name: Ruby
+  description: A dynamic, interpreted, open source programming language with a focus
+    on simplicity and productivity
+  website_url: https://www.ruby-lang.org
+  open_source: true
+  hosted_saas: false
+  category: Languages & Frameworks
+  sub_category: Languages
+  image_url: https://img.stackshare.io/service/989/ruby.png
+  detection_source: Repo Metadata
+- name: Git
+  description: Fast, scalable, distributed revision control system
+  website_url: http://git-scm.com/
+  open_source: true
+  hosted_saas: false
+  category: Build, Test, Deploy
+  sub_category: Version Control System
+  image_url: https://img.stackshare.io/service/1046/git.png
+  detection_source: Repo Metadata
